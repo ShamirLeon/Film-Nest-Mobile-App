@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-native'
 import { View, StyleSheet } from 'react-native'
 import MovieDetails from '../app/MovieDetails'
 import Home from '../app/Home'
+import MoviesByGenre from '../app/MoviesByGenre'
 
 
 const Main = () => {
@@ -11,6 +12,9 @@ const Main = () => {
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/movieDetails'>
                     <Route path=':movieId' element={<MovieDetails></MovieDetails>}></Route>
+                </Route>
+                <Route path='/genre'>
+                    <Route path=':genreId' element={<MoviesByGenre></MoviesByGenre>}></Route>
                 </Route>
             </Routes>
         </View>
