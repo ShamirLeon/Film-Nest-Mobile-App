@@ -168,3 +168,14 @@ export enum Type {
     Teaser = "Teaser",
     Trailer = "Trailer",
 }
+
+/* Movies Genres Interfaces */
+
+export interface IGenre {
+    genres: Genre[];
+}
+
+export interface Genre {
+    id: number;
+    name: string;
+}
