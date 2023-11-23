@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, ImageBackground } from 'react-native'
 import { Link, useParams } from 'react-router-native'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,6 +10,8 @@ import AxiosConfig from '../axios-config';
 import { PUBLIC_IMAGE_TMDB_URL } from '@env'
 import { IMovieDetails, IMovieCredits, IMovieImages, IVideo, IMovieVideos, Type } from '../types/movies.interface';
 
+import { MovieContext } from '../context/MovieContext';
+
 const MovieDetails = () => {
     let { movieId } = useParams();
 
@@ -17,6 +19,8 @@ const MovieDetails = () => {
     const [movieCredits, setMovieCredits] = useState<IMovieCredits>();
     const [movieImages, setMovieImages] = useState<IMovieImages>();
     const [movieVideos, setMovieVideos] = useState<IVideo[]>();
+
+    const { genresMap }: any = useContext(MovieContext)
 
     const [playing, setPlaying] = useState(false);
 
@@ -69,7 +73,7 @@ const MovieDetails = () => {
 
     const getMovieVideos = async () => {
         try {
-            const response = await AxiosConfig(`/movie/${movieId}/videos?language=en-US`);
+            const response = await AxiosConfig(`/movie/${movieId}/videos?language=es-ES`);
             const data: IMovieVideos = response.data;
             setMovieVideos(data.results);
         } catch (error) {
@@ -134,10 +138,16 @@ const MovieDetails = () => {
                                 <View style={styles.dataContainer}>
                                     <StyledText fontSize="heading" fontWeight="bold">{movie.title}</StyledText>
                                     <StyledText>{movie.overview}</StyledText>
-                                    <View style={styles.categories}>
-                                        <Text style={styles.categorie} >Action </Text>
-                                        <Text style={styles.categorie} >Adventure </Text>
-                                        <Text style={styles.categorie} >Sci-Fi</Text>
+                                    <View>
+                                        <ScrollView horizontal >
+                                            {
+                                                movie.genres.map(genre => (
+                                                    <Link to={`/genre/${genre.id}`} key={genre.id}>
+                                                        <StyledText categorie>{genresMap.get(genre.id)} </StyledText>
+                                                    </Link>
+                                                ))
+                                            }
+                                        </ScrollView>
                                     </View>
                                 </View>
                             </LinearGradient>
@@ -171,17 +181,11 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
-    categories: {
-        flexDirection: "row",
-        gap: 16,
-    },
-
     categorie: {
-        color: '#fff',
         padding: 10,
         backgroundColor: '#ffffff33',
         borderRadius: 4,
-        textTransform: "uppercase"
+        textTransform: "uppercase",
     },
 
     background: {

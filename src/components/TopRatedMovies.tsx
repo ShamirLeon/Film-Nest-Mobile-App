@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
-import { useState, useEffect } from 'react';
+import { StyleSheet, View, ImageBackground, ScrollView } from "react-native";
+import { Link } from "react-router-native";
+import { useState, useEffect, useContext } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'
 
 import { IResult } from '../types/movies.interface';
@@ -8,12 +9,14 @@ import { PUBLIC_IMAGE_TMDB_URL } from '@env';
 import StyledText from "./StyledText";
 import ScrollMovies from "./ScrollMovies";
 import AxiosConfig from "../axios-config";
+import { MovieContext } from "../context/MovieContext";
 
 
 export default function TopRatedMovies() {
 
     const [ratedMovies, setRatedMovies] = useState<IResult[]>();
     const [movie, setMovie] = useState<number>(0);
+    const { genresMap }: any = useContext(MovieContext)
 
     const getData = async () => {
         const response = await AxiosConfig('/movie/top_rated?language=en-US&page=2');
@@ -46,10 +49,16 @@ export default function TopRatedMovies() {
                             <View style={styles.dataContainer}>
                                 <StyledText fontSize="heading" fontWeight="bold">{ratedMovies[movie].title}</StyledText>
                                 <StyledText>{ratedMovies[movie].overview}</StyledText>
-                                <View style={styles.categories}>
-                                    <Text style={styles.categorie} >Action </Text>
-                                    <Text style={styles.categorie} >Adventure </Text>
-                                    <Text style={styles.categorie} >Sci-Fi</Text>
+                                <View>
+                                    <ScrollView horizontal >
+                                        {
+                                            ratedMovies[movie].genre_ids.map(genre => (
+                                                <Link to={`/genre/${genre}`} key={genre} >
+                                                    <StyledText categorie>{genresMap.get(genre)} </StyledText>
+                                                </Link>
+                                            ))
+                                        }
+                                    </ScrollView>
                                 </View>
                             </View>
                         </LinearGradient>
@@ -84,19 +93,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         position: "absolute",
-    },
-
-    categories: {
-        flexDirection: "row",
-        gap: 16,
-    },
-
-    categorie: {
-        color: '#fff',
-        padding: 10,
-        backgroundColor: '#ffffff33',
-        borderRadius: 4,
-        textTransform: "uppercase"
     },
 
     background: {
