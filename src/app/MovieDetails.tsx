@@ -97,13 +97,17 @@ const MovieDetails = () => {
 
     const TrailerImageList = () => {
         return (
-            <ScrollView horizontal>
-                {
-                    filteredMovieImages?.map((image, i) => (
-                        <Image key={i} style={styles.imageTrailer} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}w780/${image.file_path}` }}></Image>
-                    ))
-                }
-            </ScrollView>
+            <View >
+                <LinearGradient colors={['#11181D', 'transparent']} style={styles.fade} end={{ x: .2, y: 1 }} start={{ x: 1, y: 1 }}></LinearGradient>
+                <ScrollView horizontal>
+                    {
+                        filteredMovieImages?.map((image, i) => (
+                            <ImageBackground key={i} style={styles.imageTrailer} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}w780/${image.file_path}` }}>
+                            </ImageBackground>
+                        ))
+                    }
+                </ScrollView>
+            </View>
         )
     }
 
@@ -212,8 +216,9 @@ const styles = StyleSheet.create({
 
     imageTrailer: {
         width: 360,
-        height: 202,
-        marginRight: 24
+        aspectRatio: 16 / 9,
+        marginRight: 24,
+        position: 'relative'
     },
 
     back: {
@@ -228,6 +233,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         zIndex: 50
     },
+
+    fade: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        width: 30,
+        height: '100%',
+        zIndex: 55,
+    }
 })
 
 
