@@ -10,8 +10,6 @@ import AxiosConfig from '../axios-config';
 import { PUBLIC_IMAGE_TMDB_URL } from '@env'
 import { IMovieDetails, IMovieCredits, IMovieImages, IVideo, IMovieVideos, Type } from '../types/movies.interface';
 
-import { MovieContext } from '../context/MovieContext';
-
 const MovieDetails = () => {
     let { movieId } = useParams();
 
@@ -19,9 +17,6 @@ const MovieDetails = () => {
     const [movieCredits, setMovieCredits] = useState<IMovieCredits>();
     const [movieImages, setMovieImages] = useState<IMovieImages>();
     const [movieVideos, setMovieVideos] = useState<IVideo[]>();
-
-    const { genresMap }: any = useContext(MovieContext)
-
     const [playing, setPlaying] = useState(false);
 
     const onStateChange = useCallback((state: string) => {
@@ -92,7 +87,9 @@ const MovieDetails = () => {
             <View style={styles.castContainer}>
                 {
                     filteredCast?.slice(0, 5).map(person => (
-                        <Image key={person.id} style={styles.profilePicture} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}w780/${person.profile_path}` }}></Image>
+                        <Link key={person.id} to={`/person/${person.id}`} style={{ borderRadius: 30 }}>
+                            <Image style={styles.profilePicture} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}w780/${person.profile_path}` }}></Image>
+                        </Link>
                     ))
                 }
             </View>
@@ -143,7 +140,7 @@ const MovieDetails = () => {
                                             {
                                                 movie.genres.map(genre => (
                                                     <Link to={`/genre/${genre.id}`} key={genre.id}>
-                                                        <StyledText categorie>{genresMap.get(genre.id)} </StyledText>
+                                                        <StyledText categorie>{genre.name} </StyledText>
                                                     </Link>
                                                 ))
                                             }
