@@ -5,7 +5,7 @@ import { useFonts } from 'expo-font';
 
 interface ITextProps {
     children?: any,
-    color?: string,
+    color?: 'accent',
     fontSize?: 'heading' | 'subheading',
     fontWeight?: 'bold',
     style?: any,
