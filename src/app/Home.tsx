@@ -1,14 +1,14 @@
 import { ScrollView } from 'react-native';
-import TopRatedMovies from '../components/TopRatedMovies';
-import UpcomingMovies from '../components/UpcomingMovies';
 import NowPlayingMovies from '../components/NowPlayingMovies';
+import UpcomingMovies from '../components/UpcomingMovies';
+import TopRatedMovies from '../components/TopRatedMovies';
 
 const Home = () => {
     return (
         <ScrollView>
-            <TopRatedMovies />
-            <UpcomingMovies />
             <NowPlayingMovies />
+            <UpcomingMovies />
+            <TopRatedMovies />
         </ScrollView>
     )
 }
