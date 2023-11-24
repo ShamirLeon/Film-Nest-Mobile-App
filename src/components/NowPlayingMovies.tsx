@@ -12,7 +12,6 @@ export default function NowPlayingMovies() {
         try {
             const response = await AxiosConfig('/movie/now_playing?language=en-US&page=1')
             setNowPlayingMovies(response.data.results)
-            console.log(response.data.results[0].poster_path);
         } catch (error) {
             console.log(error);
         }
