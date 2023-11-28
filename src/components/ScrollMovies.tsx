@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { Link } from 'react-router-native'
+import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
+import { Link } from 'expo-router'
 import { IResult } from "../types/movies.interface";
 import { PUBLIC_IMAGE_TMDB_URL } from '@env';
 import StyledText from "./StyledText";
@@ -16,10 +16,10 @@ export default function ScrollMovies({ movies, title }: Props) {
             <StyledText fontSize="subheading" fontWeight="bold">{title}</StyledText>
             <ScrollView horizontal>
                 {
-                    movies && movies.map(movie => (
-                        <Link to={`/movieDetails/${movie.id}`} key={movie.id}>
-                            <Image style={styles.ratedMovie} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}w342${movie.poster_path}` }}></Image>
-                        </Link>
+                    movies.map(movie => (
+                        <ImageBackground key={movie.id} style={styles.image} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}w342${movie.poster_path}` }}>
+                            <Link href={`/movieDetails/${movie.id}`} style={styles.ratedMovie}></Link>
+                        </ImageBackground>
                     ))
                 }
             </ScrollView>
@@ -35,9 +35,13 @@ const styles = StyleSheet.create({
     },
 
     ratedMovie: {
-        width: 186,
-        height: 279,
+        width: '100%',
+        aspectRatio: 9 / 16,
+    },
+
+    image: {
+        width: 200,
+        aspectRatio: 9 / 16,
         marginRight: 24,
-        backgroundColor: '#ee33ff44'
     }
 })

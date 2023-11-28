@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff33',
         borderRadius: 4,
         textTransform: "uppercase",
-        marginRight: 8
+        marginRight: 16
     },
 })
 
@@ -58,11 +58,12 @@ export default function StyledText({ children, color, fontSize, fontWeight, styl
     }
     const textStyles: any[] = [
         styles.text,
+        style,
         color === 'accent' && styles.accent,
         fontSize === 'heading' && styles.heading,
         fontSize === 'subheading' && styles.subheading,
         fontWeight === 'bold' && styles.bold,
-        categorie && styles.categorie
+        categorie && styles.categorie,
     ];
 
     return (

@@ -1,5 +1,5 @@
 import { StyleSheet, View, ImageBackground, ScrollView } from "react-native";
-import { Link } from "react-router-native";
+import { Link } from "expo-router";
 import { useState, useEffect, useContext } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -12,7 +12,7 @@ import { MovieContext } from "../context/MovieContext";
 import ScrollMovies from "./ScrollMovies";
 
 
-export default function TopRatedMovies() {
+export default function NowPlayingMovies() {
 
     const [nowPlayingMovies, setNowPlayingMovies] = useState<IResult[]>();
     const [movie, setMovie] = useState<number>(0);
@@ -47,7 +47,7 @@ export default function TopRatedMovies() {
                         <ImageBackground style={styles.image} source={{ uri: `${PUBLIC_IMAGE_TMDB_URL}original/${nowPlayingMovies[movie].backdrop_path}` }}></ImageBackground>
                         <LinearGradient colors={['#11181D', 'transparent']} style={styles.background} end={{ x: 0, y: 0 }} start={{ x: 0, y: 1 }}>
                             <View style={styles.dataContainer}>
-                                <Link to={`/movieDetails/${nowPlayingMovies[movie].id}`} touchSoundDisabled>
+                                <Link href={`/movieDetails/${nowPlayingMovies[movie].id}`}>
                                     <StyledText fontSize="heading" fontWeight="bold">{nowPlayingMovies[movie].title}</StyledText>
                                 </Link>
                                 <StyledText>{nowPlayingMovies[movie].overview}</StyledText>
@@ -55,9 +55,11 @@ export default function TopRatedMovies() {
                                     <ScrollView horizontal >
                                         {
                                             nowPlayingMovies[movie].genre_ids.map(genre => (
-                                                <Link to={`/genre/${genre}`} key={genre} >
-                                                    <StyledText categorie>{genresMap.get(genre)} </StyledText>
-                                                </Link>
+                                                <StyledText categorie key={genre}>
+                                                    <Link href={`/genre/${genre}`}>
+                                                        {genresMap.get(genre)}
+                                                    </Link>
+                                                </StyledText>
                                             ))
                                         }
                                     </ScrollView>

@@ -1,4 +1,4 @@
-import StyledText from "../components/StyledText"
+import StyledText from "../src/components/StyledText"
 
 function MoviesByGenre() {
     return (
